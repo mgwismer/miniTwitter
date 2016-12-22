@@ -1,0 +1,9 @@
+<div class="empty-space"></div>
+<div class="empty-space"></div>
+<% @users.each do |user| %>
+<div>
+   Name: <%= user.name %> 
+   <span> "   "</span> 
+   <%= user.id %>
+</div>
+<% end %>

@@ -1,0 +1,18 @@
+<!-- 
+<h3>or Create post </h3>
+<form method="POST" action="/posts/create/<%= @user.id %>">
+ <div>
+   <label for="title"> Title</label>
+   <input type="text" name="title">
+  </div>
+  <div>
+   <label for="content"> Post Content</label>
+   <textarea name="content"> </textarea>
+  </div>
+  <input type="submit" value="submit">
+</form>
+
+<h3>or Remove me </h3>
+<form method="POST" action="/users/<%= @user.id %>/delete">
+  <input type="submit" value="I want to be freed from your silly app">
+</form> -->
