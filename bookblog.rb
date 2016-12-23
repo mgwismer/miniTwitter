@@ -31,10 +31,15 @@ get '/user/:id' do
    erb :user
 end
 
+get '/user/posts/:id' do
+   @user = User.find(params["id"])
+   erb :listpost
+end 
+
 post '/users/create' do
   @user= User.new(params)
   @user.save
-  redirect "/users"
+  redirect "/user/#{@user.id}"
 end
 
 post '/posts/create/:user_id' do
@@ -43,6 +48,13 @@ post '/posts/create/:user_id' do
   @post.user_id = @user.id
   @post.save
   redirect "/user/#{@user.id}"
+end
+
+post '/posts/search' do
+  #@user = User.find(params["user_id"])
+  @searched_user = User.find_by(name: params['search'])
+  # puts @searched_user
+  redirect "/user/posts/#{@searched_user.id}"
 end
 
 post '/login' do
