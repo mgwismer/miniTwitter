@@ -42,7 +42,20 @@ get '/allposts' do
 end
 
 get '/mypage' do
-  redirect "/user/#{session[:user_id]}"
+  if (session[:user_id])
+    redirect "/user/#{session[:user_id]}"
+  else
+    erb :loginpage
+  end
+end
+
+get '/logout' do
+  if (session[:user_id])
+    session[:user_id] = nil 
+    erb :loginpage
+  else
+    erb :loginpage
+  end
 end
 
 post '/users/create' do
@@ -76,4 +89,5 @@ post '/login' do
     flash[:alert] = "Nope, try again"
     redirect '/loginpage'
   end
+
 end
