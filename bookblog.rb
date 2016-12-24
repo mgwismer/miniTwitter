@@ -35,6 +35,15 @@ get '/user/posts/:id' do
    @user = User.find(params["id"])
    erb :listpost
 end 
+ 
+get '/allposts' do
+   @posts = Post.all.reverse
+   erb :allposts
+end
+
+get '/mypage' do
+  redirect "/user/#{session[:user_id]}"
+end
 
 post '/users/create' do
   @user= User.new(params)
