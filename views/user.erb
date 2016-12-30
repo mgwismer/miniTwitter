@@ -1,16 +1,17 @@
 <div class="empty-space"></div>
 <div class="empty-space"></div>
-<h1 class="user-h1"><%= @user.name %>'s  Posts</h1>
-<% @user.posts.each do |post| %>
-  <h3> <%= post.title %></h3>
-  <p> <%= post.content %> </p>
-<% end %>
-
+<h1 class="user-h1" id="userH1"><%= @user.name %>'s  Posts</h1>
+<div>
+  <% @user.posts.each do |post| %>
+    <h3> <%= post.title %></h3>
+    <p> <%= post.content %> </p>
+  <% end %>
+</div>
 <h3>or Create post </h3>
 <form method="POST" action="/posts/create/<%= @user.id %>">
- <div>
-   <label for="title"> Title</label>
-   <input type="text" name="title">
+  <div>
+    <label for="title"> Title</label>
+    <input type="text" name="title">
   </div>
   <div>
    <label for="content"> Post Content</label>
@@ -32,3 +33,41 @@
 <form method="POST" action="/users/<%= @user.id %>/delete">
   <input type="submit" value="I want to be freed from your silly app">
 </form>
+
+<h3> Color creation </h3>
+<form method="POST" action="/users/update/<%= @user.id %>">
+  <button class="jscolor {valueElement:'chosen-value', onFineChange:'setBodyColor(this)'}">
+    Pick background color
+  </button>
+  HEX value: <input type="text" id="chosen-value" value="000000" name="bodyColor">
+  <button class="jscolor {valueElement:'chosen-value1', onFineChange:'setH1Color(this)'}">
+    Pick text color
+  </button>
+  HEX value: <input type="text" id="chosen-value1" value="000000" name="h1Color">
+  <button class="jscolor {valueElement:'chosen-value2', onFineChange:'setTextColor(this)'}">
+    Pick text color
+  </button>
+  HEX value: <input type="text" id="chosen-value2" value="000000" name="textColor">
+  <input type="submit" value="submit">
+</form>
+
+  <script>
+  function setBodyColor(picker) {
+    document.getElementsByTagName('body')[0].style.backgroundColor = '#' + picker.toString()
+  }
+  function setH1Color(picker) {
+    document.getElementById('userH1').style.color = '#' + picker.toString()
+  }
+  function setTextColor(picker) {
+    document.getElementsByTagName('body')[0].style.color = '#' + picker.toString()
+  }
+  //This doesn't work in the .js files. 
+  var color = <%= @colors.to_json %>; 
+  setBodyColor(color.bodyColor);
+  setH1Color(color.h1Color);
+  setTextColor(color.textColor);
+  // document.getElementsByTagName('body')[0].style.backgroundColor = '#' + colors.bodyColor;
+  // document.getElementById('userH1').style.color = '#' + colors.h1Color;
+  // document.getElementsByTagName('body')[0].style.color = '#' + colors.textColor;
+  console.log(color);
+  </script>

@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require './models.rb'
 require 'sinatra/flash'
+require 'json'
 
 set :database, "sqlite3:test.sqlite3"
 enable :sessions
@@ -27,7 +28,9 @@ get '/users' do
 end
 
 get '/user/:id' do
+   @users = User.all
    @user = User.find(params["id"])
+   @colors = Color.find_by(user_id: @user.id)
    erb :user
 end
 
@@ -38,6 +41,7 @@ end
  
 get '/allposts' do
    @posts = Post.all.reverse
+   @users = User.all
    erb :allposts
 end
 
@@ -64,6 +68,7 @@ post '/users/create' do
   redirect "/user/#{@user.id}"
 end
 
+#user creates a new post
 post '/posts/create/:user_id' do
   @user = User.find(params["user_id"])
   @post = Post.new(title: params["title"], content: params["content"])
@@ -72,11 +77,21 @@ post '/posts/create/:user_id' do
   redirect "/user/#{@user.id}"
 end
 
+#user can search for another user
 post '/posts/search' do
   #@user = User.find(params["user_id"])
   @searched_user = User.find_by(name: params['search'])
   # puts @searched_user
   redirect "/user/posts/#{@searched_user.id}"
+end
+
+post '/users/update/:user_id' do
+  @user = User.find(params["user_id"])
+  @color = Color.where(user_id: params["user_id"])[0]
+  @color.update(h1Color: params["h1Color"], bodyColor: params["bodyColor"], textColor: params["textColor"])
+  #@color.user_id = @user.id
+  # @color.save
+  redirect "/user/#{@user.id}"
 end
 
 post '/login' do
