@@ -102,7 +102,7 @@ post '/users/update/:user_id' do
   @user = User.find(params["user_id"])
   @color = Color.where(user_id: params["user_id"])[0]
   @color.update(h1Color: params["h1Color"], bodyColor: params["bodyColor"], textColor: params["textColor"])
-  redirect "/user/#{user.id}"
+  redirect "/user/#{@user.id}"
 end
 
 post '/login' do

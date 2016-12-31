@@ -6,10 +6,10 @@
 <div class="post-container">
   <% @user.posts.each do |post| %>
   <div class="post-div row">
-    <div class="title-div col-md-3">
+    <div class="title-div col-md-4">
       <h3> <%= post.title %></h3>
     </div>
-    <div class="deletepost-div col-md-3">
+    <div class="deletepost-div col-md-2">
       <form method="POST" action="/posts/<%= post.id %>/delete">
         <input type="submit" value="delete">
       </form> 
