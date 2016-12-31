@@ -1,7 +1,28 @@
-<h1> Recent posts </h1>
-<h2> <%= @user.name %>'s Posts </h2>
-<% @user.posts.each do |post| %>
-  <h3> <%= post.title %></h3>
-  <p> <%= post.content %> </p>
-<% end %>
+<div class="empty-space"></div>
+<div class="empty-space"></div>
 
+<div>
+	<h2 id="userH2"> <%= @user.name %>'s Most Recent Posts </h2>
+	<div class="post-container">
+		<% @user.posts.each do |post| %>
+		  <h3> <%= post.title %></h3>
+		  <p> <%= post.content %> </p>
+		<% end %>
+	</div>
+</div>
+<script>
+  function setBodyColor(picker) {
+    document.getElementsByTagName('body')[0].style.backgroundColor = '#' + picker.toString()
+  }
+  function setH1Color(picker) {
+    document.getElementById('userH2').style.color = '#' + picker.toString()
+  }
+  function setTextColor(picker) {
+    document.getElementsByTagName('body')[0].style.color = '#' + picker.toString()
+  }
+  //This doesn't work in the .js files. 
+  var color = <%= @colors.to_json %>; 
+  setBodyColor(color.bodyColor);
+  setH1Color(color.h1Color);
+  setTextColor(color.textColor);
+ </script>

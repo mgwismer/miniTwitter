@@ -1,0 +1,4 @@
+test.sqlite3
+.DS_Store
+/public/scripts/.DS_Store
+.sass-cache

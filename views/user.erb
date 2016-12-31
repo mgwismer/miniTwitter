@@ -1,56 +1,99 @@
 <div class="empty-space"></div>
 <div class="empty-space"></div>
-<h1 class="user-h1" id="userH1"><%= @user.name %>'s  Posts</h1>
-<div>
+<div class="h1-container">
+  <h1 class="user-h1" id="userH1"><%= @user.name %>'s  Page</h1>
+</div>
+<div class="post-container">
   <% @user.posts.each do |post| %>
-    <h3> <%= post.title %></h3>
-    <p> <%= post.content %> </p>
+  <div class="post-div row">
+    <div class="title-div col-md-3">
+      <h3> <%= post.title %></h3>
+    </div>
+    <div class="deletepost-div col-md-3">
+      <form method="POST" action="/posts/<%= post.id %>/delete">
+        <input type="submit" value="delete">
+      </form> 
+    </div>
+  </div> 
+  <p> <%= post.content %> </p>
   <% end %>
 </div>
-<h3>or Create post </h3>
-<form method="POST" action="/posts/create/<%= @user.id %>">
-  <div>
-    <label for="title"> Title</label>
-    <input type="text" name="title">
+
+ <!-- Modal -->
+<!-- <div id="delete-modal" class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">REMOVE POST</h4>
+      </div>
+      <div class="modal-body"> 
+        <p>  Change your mind about a recent post (or not so recent post?)</p> 
+      </div> 
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-default" data-dismiss="modal">LEARN MORE</button>
+      </div>
+    </div>   
   </div>
-  <div>
-   <label for="content"> Post Content</label>
-   <textarea name="content"> </textarea>
+</div> -->
+<div class="personal-cont row">
+  <div class="idea-cont col-md-4">
+    <h3>a New Idea </h3>
+    <form method="POST" action="/posts/create/<%= @user.id %>">
+      <div>
+        <label for="title"> Title</label>
+        <input type="text" name="title">
+      </div>
+      <div>
+       <label for="content"> Content</label>
+       <textarea name="content"> </textarea>
+      </div>
+      <input type="submit" value="submit">
+    </form>
   </div>
-  <input type="submit" value="submit">
-</form>
-
-<h3> Search for user </h3>
-<form method="POST" action="/posts/search">
- <div>
-   <label for="title"> Search</label>
-   <input type="text" name="search">
+  <div class="search-cont col-md-4">
+    <h3> Search for user </h3>
+    <form method="POST" action="/posts/search">
+     <div>
+       <label for="title"> Search</label>
+       <input type="text" name="search">
+      </div>
+      <input type="submit" value="search">
+    </form>
   </div>
-  <input type="submit" value="search">
-</form>
-
-<h3>or Remove me </h3>
-<form method="POST" action="/users/<%= @user.id %>/delete">
-  <input type="submit" value="I want to be freed from your silly app">
-</form>
-
-<h3> Color creation </h3>
-<form method="POST" action="/users/update/<%= @user.id %>">
-  <button class="jscolor {valueElement:'chosen-value', onFineChange:'setBodyColor(this)'}">
-    Pick background color
-  </button>
-  HEX value: <input type="text" id="chosen-value" value="000000" name="bodyColor">
-  <button class="jscolor {valueElement:'chosen-value1', onFineChange:'setH1Color(this)'}">
-    Pick text color
-  </button>
-  HEX value: <input type="text" id="chosen-value1" value="000000" name="h1Color">
-  <button class="jscolor {valueElement:'chosen-value2', onFineChange:'setTextColor(this)'}">
-    Pick text color
-  </button>
-  HEX value: <input type="text" id="chosen-value2" value="000000" name="textColor">
-  <input type="submit" value="submit">
-</form>
-
+  <div class="color-cont col-md-4">
+    <h3> Color creation </h3>
+    <form method="POST" action="/users/update/<%= @user.id %>">
+      <div class="bodyColor-cont">
+        <button class="jscolor {valueElement:'chosen-value', onFineChange:'setBodyColor(this)'}">
+        Pick background color
+        </button>
+        <input type="text" id="chosen-value" value="000000" name="bodyColor">
+      </div>
+      <div class="h1Color-cont">
+        <button class="jscolor {valueElement:'chosen-value1', onFineChange:'setH1Color(this)'}">
+          Pick heading color
+        </button>
+        <input type="text" id="chosen-value1" value="000000" name="h1Color">
+      </div>
+      <div class="textColor-cont">
+        <button class="jscolor {valueElement:'chosen-value2', onFineChange:'setTextColor(this)'}">
+          Pick text color
+        </button>
+        <input type="text" id="chosen-value2" value="000000" name="textColor">
+      </div>
+      <input type="submit" value="submit">
+    </form>
+  </div>
+</div>
+<div class="empty-space"></div>
+<div class="empty-space"></div>
+<div class="remove-cont">
+  <h3>or Remove me </h3>
+  <form method="POST" action="/users/<%= @user.id %>/delete">
+    <input type="submit" value="I want to be freed from your silly app">
+  </form>
+</div>
   <script>
   function setBodyColor(picker) {
     document.getElementsByTagName('body')[0].style.backgroundColor = '#' + picker.toString()
@@ -66,8 +109,4 @@
   setBodyColor(color.bodyColor);
   setH1Color(color.h1Color);
   setTextColor(color.textColor);
-  // document.getElementsByTagName('body')[0].style.backgroundColor = '#' + colors.bodyColor;
-  // document.getElementById('userH1').style.color = '#' + colors.h1Color;
-  // document.getElementsByTagName('body')[0].style.color = '#' + colors.textColor;
-  console.log(color);
   </script>

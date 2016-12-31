@@ -6,6 +6,7 @@ require 'json'
 
 set :database, "sqlite3:test.sqlite3"
 enable :sessions
+initColor = {h1Color: "000000", bodyColor: "FFFFFF", textColor: "000000"}
 
 #this is the root
 get '/' do
@@ -36,13 +37,18 @@ end
 
 get '/user/posts/:id' do
    @user = User.find(params["id"])
+   @colors = Color.find_by(user_id: @user.id)
    erb :listpost
 end 
  
 get '/allposts' do
-   @posts = Post.all.reverse
-   @users = User.all
-   erb :allposts
+  if (session[:user_id])
+    @posts = Post.all.reverse
+    @users = User.all
+    erb :allposts
+  else
+    erb :loginpage
+  end
 end
 
 get '/mypage' do
@@ -65,6 +71,10 @@ end
 post '/users/create' do
   @user= User.new(params)
   @user.save
+  #default colors
+  @color = Color.new(initColor)
+  @color.user_id = @user.id
+  @color.save
   redirect "/user/#{@user.id}"
 end
 
@@ -79,19 +89,20 @@ end
 
 #user can search for another user
 post '/posts/search' do
-  #@user = User.find(params["user_id"])
   @searched_user = User.find_by(name: params['search'])
-  # puts @searched_user
-  redirect "/user/posts/#{@searched_user.id}"
+  if (@searched_user)
+    redirect "/user/posts/#{@searched_user.id}"
+  else
+    flash[:alert] = "No user by this name found"
+    redirect "/user/#{session[:user_id]}"
+  end
 end
 
 post '/users/update/:user_id' do
   @user = User.find(params["user_id"])
   @color = Color.where(user_id: params["user_id"])[0]
   @color.update(h1Color: params["h1Color"], bodyColor: params["bodyColor"], textColor: params["textColor"])
-  #@color.user_id = @user.id
-  # @color.save
-  redirect "/user/#{@user.id}"
+  redirect "/user/#{user.id}"
 end
 
 post '/login' do
@@ -104,5 +115,17 @@ post '/login' do
     flash[:alert] = "Nope, try again"
     redirect '/loginpage'
   end
+end
 
+  #trying to delete a user post
+post '/posts/:id/delete' do
+  @post = Post.find(params['id'])
+  @post.destroy
+  redirect "/user/#{session[:user_id]}"
+end
+
+post '/users/:id/delete' do
+  @user = User.find(params['id'])
+  @user.destroy
+  redirect "/"
 end

@@ -1,4 +1,27 @@
 
+.h1-container {
+  width: 800px;
+  margin: 0 auto;
+}
 .user-h1 {
-  color: red;
+  font-family: $user-font;
+  text-align: center;
+  font-size: 2em;
+}
+
+.post-container {
+  font-family: $user-font;
+  font-size: 1em;
+  width: 800px;
+  margin: 0 auto;
+}
+ 
+.personal-cont {
+  padding: 20px;
+}
+
+.deletepost-div {
+  position: relative;
+  top: 20px;
+  color: black;
 }
